@@ -8,8 +8,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Bangers&display=swap');
         
         :root {
-            --primary-color: #6a11cb; /* Roxo Mágico */
-            --secondary-color: #2575fc; /* Azul Game */
+            --primary-color: #6a11cb; /* Roxo Mágico Padrão */
+            --secondary-color: #2575fc; /* Azul Game Padrão */
             --accent-color: #ffde1f; /* Amarelo Estrela */
             --text-color: #333;
             --bg-color: #f0f2f5;
@@ -21,10 +21,13 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+            /* Usa as variáveis CSS no background */
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: var(--text-color);
             line-height: 1.6;
             padding: 20px;
+            /* Adiciona transição para a mudança de cor de fundo */
+            transition: background 0.5s ease; 
         }
 
         .container {
@@ -34,16 +37,20 @@
             border-radius: 25px;
             box-shadow: var(--shadow);
             overflow: hidden;
+            /* Usa a variável CSS na borda */
             border: 5px solid var(--accent-color);
         }
 
         header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px 20px 40px;
+            /* Usa as variáveis CSS no background */
             background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
             color: #fff;
             position: relative;
             overflow: hidden;
+            /* Adiciona transição para a mudança de cor do header */
+            transition: background 0.5s ease; 
         }
 
         header h1 {
@@ -55,9 +62,59 @@
             animation: bounce 1s ease-in-out infinite alternate;
         }
 
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
+        /* Countdown Timer Styling */
+        #countdown-timer {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5em;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Mission Status */
+        #mission-status {
+            font-size: 0.9em;
+            margin-top: 5px;
+            font-weight: 600;
+            color: var(--accent-color);
+            transition: color 0.5s ease;
+        }
+        
+        /* Checkbox Styling */
+        li.activity-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        li.activity-item:hover {
+            background-color: #e8f0ff;
+        }
+
+        .activity-text {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        /* Completed Style */
+        .completed .activity-text {
+            color: #777;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        
+        .checkmark {
+            margin-left: 10px;
+            font-size: 1.4em;
+            color: #4caf50;
+            display: none;
+        }
+
+        .completed .checkmark {
+            display: inline-block;
         }
 
         .emoji {
@@ -79,14 +136,14 @@
         }
 
         .itinerary {
-            padding: 30px; /* Ajustado para menor espaçamento */
+            padding: 30px; 
         }
 
         .day-card {
             background-color: var(--card-bg);
             border-radius: 15px;
-            padding: 25px; /* Ajustado para menor espaçamento */
-            margin-bottom: 20px; /* Ajustado para menor espaçamento */
+            padding: 25px; 
+            margin-bottom: 20px; 
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             border: 2px solid var(--primary-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -125,7 +182,7 @@
         li {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 10px; /* Ajustado para menor espaçamento */
+            margin-bottom: 10px; 
         }
 
         .time {
@@ -137,7 +194,6 @@
         
         .activity {
             flex: 1;
-            /* Aumentado o padding para garantir espaço para o emoji '👉' e evitar sobreposição */
             padding-left: 30px; 
             position: relative;
         }
@@ -162,21 +218,39 @@
             background-color: #f0f8ff;
             border-left: 5px solid var(--accent-color);
             padding: 15px;
-            margin-top: 10px; /* Ajustado para menor espaçamento */
+            margin-top: 10px; 
             border-radius: 8px;
             font-size: 0.9em;
         }
         
         .red-text {
-            color: #e64a19; /* Cor vermelha profunda para destaque */
+            color: #e64a19;
         }
 
-        .bonus-tips {
-            background-color: #fffacd; /* Amarelo Claro */
+        /* HOLOGRANA SECRETO - Estilos Iniciais Escondidos */
+        #survival-guide {
+            opacity: 0;
+            max-height: 0;
+            /* Ajustado para 0 padding lateral, já que está dentro do .itinerary (padding: 30px) */
+            padding: 0; 
+            margin-top: 0;
+            border: 0;
+            transition: all 0.7s ease-out;
+            visibility: hidden;
+            background-color: #fffacd;
+            border-radius: 15px;
+        }
+        
+        /* Estilo Revelado */
+        #survival-guide.revealed {
+            opacity: 1;
+            max-height: 500px;
+            /* Aplicamos o padding aqui */
             padding: 30px;
             margin-top: 30px;
-            border-radius: 15px;
+            margin-bottom: 30px; /* Adicionado para separar do Day Card */
             border: 2px dashed var(--accent-color);
+            visibility: visible;
         }
         
         .bonus-tips h3 {
@@ -187,16 +261,14 @@
         }
         
         .bonus-tips ul {
-            list-style-type: '⚡️ '; /* Novo emoji para as dicas */
+            list-style-type: '⚡️ '; 
             margin-left: 10px;
-            line-height: 1.4; /* Tighter line spacing for the list */
+            line-height: 1.4; 
         }
 
-        /* Specific style for the list items inside the bonus tips for tighter spacing */
         .bonus-tips ul li {
-            /* Overwrites general 'li' to make it a standard, tight list item */
             display: list-item;
-            margin-bottom: 4px; /* Reduced vertical space between items */
+            margin-bottom: 4px; 
             align-items: initial;
             padding-left: 0;
         }
@@ -207,6 +279,8 @@
             color: #fff;
             font-size: 0.9em;
             background: var(--primary-color);
+             /* Adiciona transição para a mudança de cor do footer */
+            transition: background 0.5s ease;
         }
 
         .link-button {
@@ -275,6 +349,8 @@
         <header>
             <h1>BGS 2025 - Eu vou!</h1>
             <p class="emoji">📸✨🔥</p>
+            <div id="countdown-timer">A Missão Começa em: Calculando...</div>
+            <div id="mission-status">Status da Missão: 0/10 atividades concluídas.</div>
         </header>
 
         <div class="intro">
@@ -282,24 +358,42 @@
         </div>
 
         <div class="itinerary">
+            <!-- Guia de Sobrevivência (Holograma Secreto) - MOVIDO PARA O TOPO -->
+            <div class="bonus-tips" id="survival-guide">
+                <h3>🌟 GUIA DE SOBREVIVÊNCIA (VIBE CHECK)</h3>
+                <ul>
+                    <li><strong>O Mapa é Seu:</strong> Ajude o Papai com o <strong>Waze/Google Maps</strong> para garantir que a gente chegue nos lugares mais rápido.</li>
+                    <li><strong>Bateria no 100%:</strong> Seu celular é a chave de tudo (câmera, redes, música). Mantenha ele <strong>SEMPRE</strong> carregando no carro.</li>
+                    <li><strong>Backup de Outfit:</strong> Leve uma muda de roupa extra. Se rolar splash na atração ou sujeira no parque, a gente troca e o <strong>feed</strong> não sofre!</li>
+                    <li><strong>Seu Som!</strong> A playlist da viagem é sua responsabilidade! Tem que ter OSTs, Harry Potter e músicas que <em>a gente</em> ama.</li>
+                </ul>
+            </div>
+            <!-- FIM DO HOLOGRAMA -->
+
             <div class="day-card">
                 <div class="day-title">
                     <h2>🎮 SÁBADO – 11/10 – BGS + Night Mágica</h2>
                 </div>
                 <ul>
-                    <li>
+                    <li class="activity-item" data-id="1">
                         <div class="time">06h00</div>
                         <div class="activity">
-                            <p><strong>A Viagem Começou! (Road Trip)!</strong> 🚗 Partiu! São 5h de estrada, então bota a playlist para tocar no máximo!.</p>
+                            <div class="activity-text">
+                                <p><strong>A Viagem Começou! (Road Trip)!</strong> 🚗 Partiu! São 5h de estrada, então bota a playlist para tocar no máximo!.</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                             <div class="tips">
                                 <strong>Dica de Sobrevivência:</strong> Sua <strong>energia</strong> é importante, então traga snacks e a gente faz uma pausa rápida no Graal Itirapina para recuperar o fôlego.
                             </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="activity-item" data-id="2">
                         <div class="time">11h30</div>
                         <div class="activity">
-                            <p><strong>BGS - Seu Palco Gamer!</strong> 🕹️ Chegamos no Anhembi! <strong>Prioridade:</strong> Começar a caçada aos <strong>youtubers</strong> e conhecer <strong>TUDO</strong>!</p>
+                             <div class="activity-text">
+                                <p><strong>BGS - Seu Palco Gamer!</strong> 🕹️ Chegamos no Anhembi! <strong>Prioridade:</strong> Começar a caçada aos <strong>youtubers</strong> e conhecer <strong>TUDO</strong>!</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                             <div class="tips">
                                 <strong>Inventário e Missão Principal:</strong> 
                                 <ul>
@@ -311,25 +405,34 @@
                             </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="activity-item" data-id="3">
                         <div class="time">20h30</div>
                         <div class="activity">
-                            <p><strong>Check-in e Troca de Look.</strong> Saída da BGS para o nosso apê: <strong>Rua Aurora, 756</strong>. Banho e vamos colocar aquele <strong>outfit</strong> especial para o jantar!</p>
+                             <div class="activity-text">
+                                <p><strong>Check-in e Troca de Look.</strong> Saída da BGS para o nosso apê: <strong>Rua Aurora, 756</strong>. Banho e vamos colocar aquele <strong>outfit</strong> especial para o jantar!</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="activity-item" data-id="4">
                         <div class="time">21h30</div>
                         <div class="activity">
-                            <p><strong>After-Game Mágico!</strong> 🧙‍♀️ Jantar <strong>TEMA</strong> no "Magia & Bruxaria"! O rolê mais <strong>diferentão</strong> da Vila Mariana.</p>
+                            <div class="activity-text">
+                                <p><strong>After-Game Mágico!</strong> 🧙‍♀️ Jantar <strong>TEMA</strong> no "Magia & Bruxaria"! O rolê mais <strong>diferentão</strong> da Vila Mariana.</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                             <div class="tips">
                                 <strong>Spoiler Alert:</strong> O ambiente é incrível, cheio de poções e decoração de Hogwarts. Lembre de reservar a mesa!
                             </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="activity-item" data-id="5">
                         <div class="time">23h00</div>
                         <div class="activity">
-                            <p><strong>Câmera Lenta (Creative Squad).</strong> Voltar para a base, pegar uns docinhos e chill com os vídeos da <strong>Creative Squad</strong> no YouTube. Merecido relax pós-evento!</p>
+                            <div class="activity-text">
+                                <p><strong>Câmera Lenta (Creative Squad).</strong> Voltar para a base, pegar uns docinhos e chill com os vídeos da <strong>Creative Squad</strong> no YouTube. Merecido relax pós-evento!</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -340,16 +443,22 @@
                     <h2>🦁 DOMINGO – 12/10 – Animália Park (V.I.P)</h2>
                 </div>
                 <ul>
-                    <li>
+                    <li class="activity-item" data-id="6">
                         <div class="time">08h00</div>
                         <div class="activity">
-                            <p><strong>Brunch de Recarga!</strong> ☕ Café reforçado em uma padaria top (tipo Padoca do Maní) antes de irmos para Cotia.</p>
+                            <div class="activity-text">
+                                <p><strong>Brunch de Recarga!</strong> ☕ Café reforçado em uma padaria top (tipo Padoca do Maní) antes de irmos para Cotia.</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="activity-item" data-id="7">
                         <div class="time">09h30</div>
                         <div class="activity">
-                            <p><strong>Animália Park: Bate e Volta V.I.P!</strong> 🌳 Chegamos! Prepare-se para ver os bichos e curtir os brinquedos na Rod. Raposo Tavares, km 41,5.</p>
+                            <div class="activity-text">
+                                <p><strong>Animália Park: Bate e Volta V.I.P!</strong> 🌳 Chegamos! Prepare-se para ver os bichos e curtir os brinquedos na Rod. Raposo Tavares, km 41,5.</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                             <div class="tips">
                                 <strong>O Plano de Ataque no Parque (em ordem):</strong>
                                 <ul>
@@ -361,35 +470,160 @@
                             </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="activity-item" data-id="8">
                         <div class="time">15h30</div>
                         <div class="activity">
-                            <p><strong>Check-Out da Missão:</strong> Hora de pegar a estrada de volta! Lanche e parada estratégica no Graal 125, em Araras.</p>
+                            <div class="activity-text">
+                                <p><strong>Check-Out da Missão:</strong> Hora de pegar a estrada de volta! Lanche e parada estratégica no Graal 125, em Araras.</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                         </div>
                     </li>
-                    <li>
+                    <li class="activity-item" data-id="9">
                         <div class="time">20h30</div>
                         <div class="activity">
-                            <p><strong>Missão Completa!</strong> Chegada prevista em Ribeirão Preto. Melhor rolê! 🎉</p>
+                            <div class="activity-text">
+                                <p><strong>Missão Completa!</strong> Chegada prevista em Ribeirão Preto. Melhor rolê! 🎉</p>
+                                <span class="checkmark">✅</span>
+                            </div>
                         </div>
                     </li>
-                </ul>
-            </div>
-
-            <div class="bonus-tips">
-                <h3>🌟 GUIA DE SOBREVIVÊNCIA (VIBE CHECK)</h3>
-                <ul>
-                    <li><strong>O Mapa é Seu:</strong> Ajude o Papai com o <strong>Waze/Google Maps</strong> para garantir que a gente chegue nos lugares mais rápido.</li>
-                    <li><strong>Bateria no 100%:</strong> Seu celular é a chave de tudo (câmera, redes, música). Mantenha ele <strong>SEMPRE</strong> carregando no carro.</li>
-                    <li><strong>Backup de Outfit:</strong> Leve uma muda de roupa extra. Se rolar splash na atração ou sujeira no parque, a gente troca e o <strong>feed</strong> não sofre!</li>
-                    <li><strong>Seu Som!</strong> A playlist da viagem é sua responsabilidade! Tem que ter OSTs, Harry Potter e músicas que <em>a gente</em> ama.</li>
+                    <!-- Adicionando um item extra para fechar em 10 atividades e facilitar a contagem -->
+                    <li class="activity-item" data-id="10">
+                        <div class="time">21h00</div>
+                        <div class="activity">
+                            <div class="activity-text">
+                                <p><strong>Bônus Level:</strong> Descompactar a mala e postar o álbum completo da viagem! 📸</p>
+                                <span class="checkmark">✅</span>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
 
         <footer>
+            <!-- Usando a variável CSS para o fundo do footer -->
             <p>O pai te ama e esta viagem vai ser INCRÍVEL! ❤️</p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const countdownEl = document.getElementById('countdown-timer');
+            const statusEl = document.getElementById('mission-status');
+            const activityItems = document.querySelectorAll('.activity-item');
+            const survivalGuide = document.getElementById('survival-guide');
+            const totalActivities = activityItems.length;
+            const root = document.documentElement;
+
+            // Cores originais e de sucesso
+            const ORIGINAL_PRIMARY = '#6a11cb';
+            const ORIGINAL_SECONDARY = '#2575fc';
+            const SUCCESS_PRIMARY = '#4caf50'; // Verde de sucesso
+            const SUCCESS_SECONDARY = '#1e88e5'; // Azul claro complementar
+            const ACCENT_YELLOW = 'var(--accent-color)';
+
+
+            // --- 1. COUNTDOWN TIMER LOGIC ---
+            // Data de início da missão: 11 de Outubro de 2025 às 06:00:00
+            const missionStart = new Date('2025-10-11T06:00:00').getTime();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = missionStart - now;
+
+                if (distance < 0) {
+                    countdownEl.textContent = "MISSÃO INICIADA! JÁ ESTAMOS NA ESTRADA! 🔥";
+                    clearInterval(countdownInterval);
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownEl.textContent = `A Missão Começa em: ${days}D ${hours}H ${minutes}M ${seconds}S`;
+            }
+
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Call immediately to avoid initial "Calculando..."
+
+
+            // --- 2. CHECKLIST AND STATUS LOGIC ---
+            
+            // Carrega o status salvo no localStorage
+            const savedCompletedIds = JSON.parse(localStorage.getItem('completedMissions')) || [];
+
+            function updateStatus() {
+                const completedCount = document.querySelectorAll('.activity-item.completed').length;
+                statusEl.textContent = `Status da Missão: ${completedCount}/${totalActivities} atividades concluídas.`;
+
+                // 3. Holograma Secreto (Guia de Sobrevivência)
+                const firstMissionCompleted = document.querySelector('[data-id="1"]').classList.contains('completed');
+                if (firstMissionCompleted) {
+                    survivalGuide.classList.add('revealed');
+                } else {
+                    survivalGuide.classList.remove('revealed');
+                }
+
+                // 4. Cores Dinâmicas (Upgrade de Nível em 50%)
+                if (completedCount >= totalActivities / 2) { // 5/10 ou mais
+                    // Aplica o tema de sucesso (verde)
+                    root.style.setProperty('--primary-color', SUCCESS_PRIMARY);
+                    root.style.setProperty('--secondary-color', SUCCESS_SECONDARY);
+                    statusEl.style.color = SUCCESS_PRIMARY; 
+                } else {
+                    // Reverte para o tema original (roxo/azul)
+                    root.style.setProperty('--primary-color', ORIGINAL_PRIMARY);
+                    root.style.setProperty('--secondary-color', ORIGINAL_SECONDARY);
+                    statusEl.style.color = ACCENT_YELLOW; 
+                }
+                
+                // Final completion status message (Se 100%)
+                if (completedCount === totalActivities) {
+                    statusEl.textContent = "MISSÃO CUMPRIDA 100%! VOCÊ É ÉPICA! 🏆";
+                    statusEl.style.color = SUCCESS_PRIMARY;
+                }
+            }
+
+            function loadStatus() {
+                activityItems.forEach(item => {
+                    const id = item.getAttribute('data-id');
+                    if (savedCompletedIds.includes(id)) {
+                        item.classList.add('completed');
+                    }
+                });
+                updateStatus();
+            }
+
+            function saveStatus() {
+                const currentCompletedIds = [];
+                document.querySelectorAll('.activity-item.completed').forEach(item => {
+                    currentCompletedIds.push(item.getAttribute('data-id'));
+                });
+                // Note: Usamos localStorage aqui para persistência das missões concluídas
+                localStorage.setItem('completedMissions', JSON.stringify(currentCompletedIds)); 
+            }
+
+            function toggleMission(event) {
+                const item = event.currentTarget;
+                // Previne que o clique no .tips, dentro do li, ative o toggle (somente o li principal)
+                if (event.target.closest('.tips')) return; 
+                
+                item.classList.toggle('completed');
+                saveStatus();
+                updateStatus();
+            }
+
+            // Atribui o evento de clique e carrega o status
+            activityItems.forEach(item => {
+                item.addEventListener('click', toggleMission);
+            });
+
+            loadStatus();
+        });
+    </script>
 </body>
 </html>
