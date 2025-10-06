@@ -15,6 +15,7 @@
             --bg-color: #f0f2f5;
             --card-bg: #fff;
             --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --success-color: #4caf50;
         }
 
         body {
@@ -109,7 +110,7 @@
         .checkmark {
             margin-left: 10px;
             font-size: 1.4em;
-            color: #4caf50;
+            color: var(--success-color);
             display: none;
         }
 
@@ -146,7 +147,7 @@
             margin-bottom: 20px; 
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             border: 2px solid var(--primary-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.5s ease;
         }
 
         .day-card:hover {
@@ -154,6 +155,12 @@
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
         }
 
+        /* Estilo para Dia Concluído (Achievement) */
+        .day-card.cleared {
+            border-color: var(--success-color);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.5); /* Sombra verde */
+        }
+        
         .day-card h2 {
             font-family: 'Bangers', cursive;
             color: var(--secondary-color);
@@ -161,6 +168,21 @@
             border-bottom: 3px solid var(--accent-color);
             padding-bottom: 10px;
             margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trophy-icon {
+            font-size: 1.5em;
+            color: gold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+            margin-left: 10px;
+            display: none;
+        }
+
+        .day-card.cleared .trophy-icon {
+            display: inline-block;
         }
         
         .day-title {
@@ -231,7 +253,6 @@
         #survival-guide {
             opacity: 0;
             max-height: 0;
-            /* Ajustado para 0 padding lateral, já que está dentro do .itinerary (padding: 30px) */
             padding: 0; 
             margin-top: 0;
             border: 0;
@@ -245,10 +266,9 @@
         #survival-guide.revealed {
             opacity: 1;
             max-height: 500px;
-            /* Aplicamos o padding aqui */
             padding: 30px;
             margin-top: 30px;
-            margin-bottom: 30px; /* Adicionado para separar do Day Card */
+            margin-bottom: 30px; 
             border: 2px dashed var(--accent-color);
             visibility: visible;
         }
@@ -279,7 +299,6 @@
             color: #fff;
             font-size: 0.9em;
             background: var(--primary-color);
-             /* Adiciona transição para a mudança de cor do footer */
             transition: background 0.5s ease;
         }
 
@@ -322,12 +341,12 @@
             }
             
             .itinerary {
-                padding: 20px 10px;
+                padding: 20px 15px;
             }
             
             li {
                 flex-direction: column;
-                margin-bottom: 25px;
+                margin-bottom: 20px;
             }
             
             .time {
@@ -341,6 +360,10 @@
             .activity:before {
                 display: none;
             }
+            
+            .trophy-icon {
+                font-size: 1.2em;
+            }
         }
     </style>
 </head>
@@ -349,7 +372,7 @@
         <header>
             <h1>BGS 2025 - Eu vou!</h1>
             <p class="emoji">📸✨🔥</p>
-            <div id="countdown-timer">A Missão Começa em:<br> Calculando...</div>
+            <div id="countdown-timer">A Missão Começa em: Calculando...</div>
             <div id="mission-status">Status da Missão: 0/10 atividades concluídas.</div>
         </header>
 
@@ -358,7 +381,7 @@
         </div>
 
         <div class="itinerary">
-            <!-- Guia de Sobrevivência (Holograma Secreto) - MOVIDO PARA O TOPO -->
+            <!-- Guia de Sobrevivência (Holograma Secreto) -->
             <div class="bonus-tips" id="survival-guide">
                 <h3>🌟 GUIA DE SOBREVIVÊNCIA (VIBE CHECK)</h3>
                 <ul>
@@ -370,9 +393,9 @@
             </div>
             <!-- FIM DO HOLOGRAMA -->
 
-            <div class="day-card">
+            <div class="day-card" data-day="saturday">
                 <div class="day-title">
-                    <h2>🎮 SÁBADO – 11/10 – BGS + Night Mágica</h2>
+                    <h2>🎮 SÁBADO – 11/10 – BGS + Night Mágica <span class="trophy-icon">🏆</span></h2>
                 </div>
                 <ul>
                     <li class="activity-item" data-id="1">
@@ -438,9 +461,9 @@
                 </ul>
             </div>
 
-            <div class="day-card">
+            <div class="day-card" data-day="sunday">
                 <div class="day-title">
-                    <h2>🦁 DOMINGO – 12/10 – Animália Park (V.I.P)</h2>
+                    <h2>🦁 DOMINGO – 12/10 – Animália Park (V.I.P) <span class="trophy-icon">🏆</span></h2>
                 </div>
                 <ul>
                     <li class="activity-item" data-id="6">
@@ -508,14 +531,32 @@
         </footer>
     </div>
 
+    <!-- Adiciona a biblioteca Tone.js para efeitos sonoros -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const countdownEl = document.getElementById('countdown-timer');
             const statusEl = document.getElementById('mission-status');
             const activityItems = document.querySelectorAll('.activity-item');
             const survivalGuide = document.getElementById('survival-guide');
+            const dayCards = document.querySelectorAll('.day-card');
             const totalActivities = activityItems.length;
             const root = document.documentElement;
+            
+            // --- TONE.JS SOUND SETUP ---
+            // Synth para o som de sucesso de cada missão
+            const successSynth = new Tone.MembraneSynth().toDestination();
+            // PolySynth para o som de Level Up (tema verde)
+            const levelUpSynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "sine" },
+                envelope: {
+                    attack: 0.05,
+                    decay: 0.1,
+                    sustain: 0.3,
+                    release: 1
+                }
+            }).toDestination();
 
             // Cores originais e de sucesso
             const ORIGINAL_PRIMARY = '#6a11cb';
@@ -523,6 +564,8 @@
             const SUCCESS_PRIMARY = '#4caf50'; // Verde de sucesso
             const SUCCESS_SECONDARY = '#1e88e5'; // Azul claro complementar
             const ACCENT_YELLOW = 'var(--accent-color)';
+            
+            let isLevelUpPlayed = false;
 
 
             // --- 1. COUNTDOWN TIMER LOGIC ---
@@ -548,17 +591,35 @@
             }
 
             const countdownInterval = setInterval(updateCountdown, 1000);
-            updateCountdown(); // Call immediately to avoid initial "Calculando..."
+            updateCountdown(); 
 
 
             // --- 2. CHECKLIST AND STATUS LOGIC ---
             
-            // Carrega o status salvo no localStorage
             const savedCompletedIds = JSON.parse(localStorage.getItem('completedMissions')) || [];
 
-            function updateStatus() {
+            function checkDayCompletion(dayCard) {
+                const dayActivities = dayCard.querySelectorAll('.activity-item');
+                let allCompleted = true;
+                dayActivities.forEach(item => {
+                    if (!item.classList.contains('completed')) {
+                        allCompleted = false;
+                    }
+                });
+                
+                if (allCompleted) {
+                    dayCard.classList.add('cleared');
+                } else {
+                    dayCard.classList.remove('cleared');
+                }
+            }
+
+            function updateStatus(isToggling = false) {
                 const completedCount = document.querySelectorAll('.activity-item.completed').length;
                 statusEl.textContent = `Status da Missão: ${completedCount}/${totalActivities} atividades concluídas.`;
+
+                // Verifica status de cada dia
+                dayCards.forEach(checkDayCompletion);
 
                 // 3. Holograma Secreto (Guia de Sobrevivência)
                 const firstMissionCompleted = document.querySelector('[data-id="1"]').classList.contains('completed');
@@ -569,22 +630,33 @@
                 }
 
                 // 4. Cores Dinâmicas (Upgrade de Nível em 50%)
-                if (completedCount >= totalActivities / 2) { // 5/10 ou mais
+                if (completedCount >= totalActivities / 2) { 
                     // Aplica o tema de sucesso (verde)
                     root.style.setProperty('--primary-color', SUCCESS_PRIMARY);
                     root.style.setProperty('--secondary-color', SUCCESS_SECONDARY);
                     statusEl.style.color = SUCCESS_PRIMARY; 
+
+                    // Toca Level Up Sound APENAS se o tema for mudado e não tiver tocado ainda na sessão
+                    if (isToggling && !isLevelUpPlayed) {
+                        levelUpSynth.triggerAttackRelease(["C4", "E4", "G4", "C5"], "1n");
+                        isLevelUpPlayed = true;
+                    }
+
                 } else {
                     // Reverte para o tema original (roxo/azul)
                     root.style.setProperty('--primary-color', ORIGINAL_PRIMARY);
                     root.style.setProperty('--secondary-color', ORIGINAL_SECONDARY);
                     statusEl.style.color = ACCENT_YELLOW; 
+                    isLevelUpPlayed = false; // Permite tocar novamente se o usuário desmarcar missões
                 }
                 
                 // Final completion status message (Se 100%)
                 if (completedCount === totalActivities) {
                     statusEl.textContent = "MISSÃO CUMPRIDA 100%! VOCÊ É ÉPICA! 🏆";
                     statusEl.style.color = SUCCESS_PRIMARY;
+                    if (isToggling) {
+                         levelUpSynth.triggerAttackRelease(["C5", "G5", "C6"], "2n");
+                    }
                 }
             }
 
@@ -603,21 +675,25 @@
                 document.querySelectorAll('.activity-item.completed').forEach(item => {
                     currentCompletedIds.push(item.getAttribute('data-id'));
                 });
-                // Note: Usamos localStorage aqui para persistência das missões concluídas
                 localStorage.setItem('completedMissions', JSON.stringify(currentCompletedIds)); 
             }
 
             function toggleMission(event) {
                 const item = event.currentTarget;
-                // Previne que o clique no .tips, dentro do li, ative o toggle (somente o li principal)
                 if (event.target.closest('.tips')) return; 
                 
+                const wasCompleted = item.classList.contains('completed');
                 item.classList.toggle('completed');
+
+                // Toca som de sucesso apenas ao completar a missão
+                if (!wasCompleted) {
+                    successSynth.triggerAttackRelease("C4", "8n");
+                }
+                
                 saveStatus();
-                updateStatus();
+                updateStatus(true); // Passa true para indicar que a função foi chamada via toggle
             }
 
-            // Atribui o evento de clique e carrega o status
             activityItems.forEach(item => {
                 item.addEventListener('click', toggleMission);
             });
