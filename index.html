@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGS 2025 - Eu vou!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Bangers&display=swap');
+        
+        :root {
+            --primary-color: #6a11cb; /* Roxo Mágico */
+            --secondary-color: #2575fc; /* Azul Game */
+            --accent-color: #ffde1f; /* Amarelo Estrela */
+            --text-color: #333;
+            --bg-color: #f0f2f5;
+            --card-bg: #fff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: var(--card-bg);
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 5px solid var(--accent-color);
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .intro {
+            padding: 20px 40px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .itinerary {
+            padding: 30px; /* Ajustado para menor espaçamento */
+        }
+
+        .day-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px; /* Ajustado para menor espaçamento */
+            margin-bottom: 20px; /* Ajustado para menor espaçamento */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .day-card h2 {
+            font-family: 'Bangers', cursive;
+            color: var(--secondary-color);
+            font-size: 2.2em;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .day-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .day-title h2 {
+            margin: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0 0;
+        }
+
+        li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px; /* Ajustado para menor espaçamento */
+        }
+
+        .time {
+            font-weight: bold;
+            color: var(--primary-color);
+            min-width: 80px;
+            font-size: 1.1em;
+        }
+        
+        .activity {
+            flex: 1;
+            /* Aumentado o padding para garantir espaço para o emoji '👉' e evitar sobreposição */
+            padding-left: 30px; 
+            position: relative;
+        }
+        
+        .activity:before {
+            content: '👉';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.2em;
+        }
+
+        .activity p {
+            margin: 0;
+        }
+
+        .activity ul {
+            margin: 10px 0 0 20px;
+        }
+
+        .tips {
+            background-color: #f0f8ff;
+            border-left: 5px solid var(--accent-color);
+            padding: 15px;
+            margin-top: 10px; /* Ajustado para menor espaçamento */
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        
+        .red-text {
+            color: #e64a19; /* Cor vermelha profunda para destaque */
+        }
+
+        .bonus-tips {
+            background-color: #fffacd; /* Amarelo Claro */
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 15px;
+            border: 2px dashed var(--accent-color);
+        }
+        
+        .bonus-tips h3 {
+            font-family: 'Bangers', cursive;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-top: 0;
+        }
+        
+        .bonus-tips ul {
+            list-style-type: '⚡️ '; /* Novo emoji para as dicas */
+            margin-left: 10px;
+            line-height: 1.4; /* Tighter line spacing for the list */
+        }
+
+        /* Specific style for the list items inside the bonus tips for tighter spacing */
+        .bonus-tips ul li {
+            /* Overwrites general 'li' to make it a standard, tight list item */
+            display: list-item;
+            margin-bottom: 4px; /* Reduced vertical space between items */
+            align-items: initial;
+            padding-left: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+            font-size: 0.9em;
+            background: var(--primary-color);
+        }
+
+        .link-button {
+            display: inline-block;
+            background-color: #ff5722;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .link-button:hover {
+            background-color: #e64a19;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .day-card {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            .time {
+                min-width: 65px;
+                font-size: 1em;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .itinerary {
+                padding: 20px 10px;
+            }
+            
+            li {
+                flex-direction: column;
+                margin-bottom: 25px;
+            }
+            
+            .time {
+                margin-bottom: 5px;
+            }
+            
+            .activity {
+                padding-left: 0;
+            }
+            
+            .activity:before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BGS 2025 - Eu vou!</h1>
+            <p class="emoji">📸✨🔥</p>
+        </header>
+
+        <div class="intro">
+            <p><strong>E aí, Pronta para o Rolê?</strong> Este é o seu itinerário oficial para um final de semana <strong>top</strong> em SP. Prepara o look, a câmera e <strong>VAI!</strong></p>
+        </div>
+
+        <div class="itinerary">
+            <div class="day-card">
+                <div class="day-title">
+                    <h2>🎮 SÁBADO – 11/10 – BGS + Night Mágica</h2>
+                </div>
+                <ul>
+                    <li>
+                        <div class="time">06h00</div>
+                        <div class="activity">
+                            <p><strong>A Viagem Começou! (Road Trip)!</strong> 🚗 Partiu! São 5h de estrada, então bota a playlist para tocar no máximo!.</p>
+                            <div class="tips">
+                                <strong>Dica de Sobrevivência:</strong> Sua <strong>energia</strong> é importante, então traga snacks e a gente faz uma pausa rápida no Graal Itirapina para recuperar o fôlego.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="time">11h30</div>
+                        <div class="activity">
+                            <p><strong>BGS - Seu Palco Gamer!</strong> 🕹️ Chegamos no Anhembi! <strong>Prioridade:</strong> Começar a caçada aos <strong>youtubers</strong> e conhecer <strong>TUDO</strong>!</p>
+                            <div class="tips">
+                                <strong>Inventário e Missão Principal:</strong> 
+                                <ul>
+                                    <li>Mochila leve, Powerbank e <strong>Protetor Solar</strong> (Ninguém merece ficar <strong class="red-text">vermelha</strong>).</li>
+                                    <li><strong>FOCO TOTAL:</strong> Vamos encontrar os <strong>youtubers preferidos</strong> e explorar cada stand do evento.</li>
+                                    <li><strong>FOTO HYPE:</strong> Tira fotos iradas com cosplayers! Vamos criar a melhor galeria para o seu <strong>story/feed</strong>!</li>
+                                    <li>Bônus: Se der tempo, a gente confere os games de <strong>PlayStation, Xbox, Nintendo</strong> e o estande de <strong>Harry Potter</strong>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="time">20h30</div>
+                        <div class="activity">
+                            <p><strong>Check-in e Troca de Look.</strong> Saída da BGS para o nosso apê: <strong>Rua Aurora, 756</strong>. Banho e vamos colocar aquele <strong>outfit</strong> especial para o jantar!</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="time">21h30</div>
+                        <div class="activity">
+                            <p><strong>After-Game Mágico!</strong> 🧙‍♀️ Jantar <strong>TEMA</strong> no "Magia & Bruxaria"! O rolê mais <strong>diferentão</strong> da Vila Mariana.</p>
+                            <div class="tips">
+                                <strong>Spoiler Alert:</strong> O ambiente é incrível, cheio de poções e decoração de Hogwarts. Lembre de reservar a mesa!
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="time">23h00</div>
+                        <div class="activity">
+                            <p><strong>Câmera Lenta (Creative Squad).</strong> Voltar para a base, pegar uns docinhos e chill com os vídeos da <strong>Creative Squad</strong> no YouTube. Merecido relax pós-evento!</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="day-card">
+                <div class="day-title">
+                    <h2>🦁 DOMINGO – 12/10 – Animália Park (V.I.P)</h2>
+                </div>
+                <ul>
+                    <li>
+                        <div class="time">08h00</div>
+                        <div class="activity">
+                            <p><strong>Brunch de Recarga!</strong> ☕ Café reforçado em uma padaria top (tipo Padoca do Maní) antes de irmos para Cotia.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="time">09h30</div>
+                        <div class="activity">
+                            <p><strong>Animália Park: Bate e Volta V.I.P!</strong> 🌳 Chegamos! Prepare-se para ver os bichos e curtir os brinquedos na Rod. Raposo Tavares, km 41,5.</p>
+                            <div class="tips">
+                                <strong>O Plano de Ataque no Parque (em ordem):</strong>
+                                <ul>
+                                    <li>1️⃣ <strong>Animália Reserva</strong> (para as fotos mais *aesthetic* com a natureza) 🦒.</li>
+                                    <li>2️⃣ <strong>Animália Diversão</strong> (para os brinquedos e simuladores) 🎢.</li>
+                                    <li><strong>Stop:</strong> Almoço no QG principal do parque.</li>
+                                    <li><strong>Compra Final:</strong> Passar na lojinha para achar um souvenir maneiro!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="time">15h30</div>
+                        <div class="activity">
+                            <p><strong>Check-Out da Missão:</strong> Hora de pegar a estrada de volta! Lanche e parada estratégica no Graal 125, em Araras.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="time">20h30</div>
+                        <div class="activity">
+                            <p><strong>Missão Completa!</strong> Chegada prevista em Ribeirão Preto. Melhor rolê! 🎉</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bonus-tips">
+                <h3>🌟 GUIA DE SOBREVIVÊNCIA (VIBE CHECK)</h3>
+                <ul>
+                    <li><strong>O Mapa é Seu:</strong> Ajude o Papai com o <strong>Waze/Google Maps</strong> para garantir que a gente chegue nos lugares mais rápido.</li>
+                    <li><strong>Bateria no 100%:</strong> Seu celular é a chave de tudo (câmera, redes, música). Mantenha ele <strong>SEMPRE</strong> carregando no carro.</li>
+                    <li><strong>Backup de Outfit:</strong> Leve uma muda de roupa extra. Se rolar splash na atração ou sujeira no parque, a gente troca e o <strong>feed</strong> não sofre!</li>
+                    <li><strong>Seu Som!</strong> A playlist da viagem é sua responsabilidade! Tem que ter OSTs, Harry Potter e músicas que <em>a gente</em> ama.</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>O pai te ama e esta viagem vai ser INCRÍVEL! ❤️</p>
+        </footer>
+    </div>
+</body>
+</html>
